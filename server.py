@@ -9,9 +9,14 @@ api = hug.API(__name__)
 api.http.add_middleware(CORSMiddleware(api))
 
 
-@hug.get('/')
+@hug.get('/', output=hug.output_format.file)
 def index():
-    return "hello"
+    return "index.htm"
+
+
+@hug.get('/static/{fn}', output=hug.output_format.file)
+def static(fn):
+    return 'static/{}'.format(fn)
 
 
 @hug.post('/ocr', output=hug.output_format.file)

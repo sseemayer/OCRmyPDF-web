@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Simple OCR Server</title>
+
+    <script src="static/dropzone.js"></script>
+    <link rel="stylesheet" href="static/dropzone.css">
+
+    <style>
+      body {
+        font: 12px sans-serif;
+        color: #000;
+        max-width: 900px;
+        margin: 0 auto;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Simple OCR Server</h1>
+
+    <form action="/ocr" class="dropzone" id="dzOCR"></form>
+
+    <script>
+
+      var saveData = (function () {
+          var a = document.createElement("a");
+          document.body.appendChild(a);
+          a.style = "display: none";
+          return function (data, fileName, mimeType) {
+              var blob = new Blob([data], {type: mimeType}),
+                  url = window.URL.createObjectURL(blob);
+              a.href = url;
+              a.download = fileName;
+              a.click();
+              window.URL.revokeObjectURL(url);
+          };
+      }());
+
+      Dropzone.options.dzOCR = {
+        init: function() {
+          this.on('success', function(file, response, e) {
+            var fn = 'ocr-' + file.name;
+            saveData(e.target.response, fn, 'application/pdf');
+          })
+        }
+      };
+    </script>
+  </body>
+  <!-- vim: set et sw=2 ts=2: -->
+</html>

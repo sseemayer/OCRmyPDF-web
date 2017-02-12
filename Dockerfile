@@ -1,12 +1,17 @@
 FROM jbarlow83/ocrmypdf
 
+USER root
+
 RUN mkdir /app
 WORKDIR /app
 
 ADD requirements.txt /app
 
-RUN pip install -r requirements.txt
+RUN . /appenv/bin/activate && pip install -r requirements.txt
 
-ADD server.py /app
+ADD server.py index.htm entrypoint.sh /app/
+ADD static /app/static/
 
-CMD ["hug", "-f", "server.py"]
+USER docker
+
+ENTRYPOINT ["/app/entrypoint.sh"]
