@@ -13,3 +13,6 @@ Expose on port 8888:
 ```bash
 docker run -p 8888:8000 --name ocrmypdf-web sseemayer/ocrmypdf-web
 ```
+
+## License
+OCRmyPDF-web, like the main project, is licensed under the GNU GPL v3.
